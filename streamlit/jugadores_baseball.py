@@ -3,7 +3,7 @@ import streamlit as st
 import matplotlib.pyplot as plt
 
 # Cargar el dataset
-df = pd.read_csv('baseball.csv')
+df = pd.read_csv('streamlit/baseball.csv')
 
 # Título del dashboard
 st.title("Jugadores de Béisbol")
