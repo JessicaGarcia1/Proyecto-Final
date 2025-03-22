@@ -17,10 +17,13 @@ jobs:
           pip install -r streamlit/requirements.txt # Instala dependencias
       - run: |
           python streamlit/procesamiento_spark.py # Ejecuta el script de Spark
-      - name: Subir resultados procesados
+      - name: Commit y push resultados procesados
+        env:
+          CI_COMMIT_MESSAGE: "Resultados procesados con Spark"
+          CI_COMMIT_AUTHOR: "JessicaGarcia1"
         run: |
-          git config --global user.name "JessicaGarcia1"
+          git config --global user.name "${{ env.CI_COMMIT_AUTHOR }}"
           git config --global user.email "garsiljes@gmail.com" # Configura el nombre y el correo
-          git add .
-          git commit -m "Resultados procesados con Spark"
-          git push https://x-access-token:${{ secrets.GH_TOKEN }}@github.com/JessicaGarcia1/Proyecto-Final.git
+          git add . # Agrega todos los cambios realizados
+          git commit -m "${{ env.CI_COMMIT_MESSAGE }}" # Usa el mensaje del commit
+          git push https://x-access-token:${{ secrets.GH_TOKEN }}@github.com/JessicaGarcia1/Proyecto-Final.git # Push con el token de acceso
