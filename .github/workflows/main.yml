@@ -23,4 +23,4 @@ jobs:
           git config --global user.email "garsiljes@gmail.com" # Configura el nombre y el correo
           git add .
           git commit -m "Resultados procesados con Spark"
-          git push origin main
+          git push https://x-access-token:${{ secrets.GH_TOKEN }}@github.com/JessicaGarcia1/Proyecto-Final.git
