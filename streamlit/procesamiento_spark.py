@@ -27,5 +27,8 @@ hall_of_fame_players.show()
 # Guardar el DataFrame procesado en formato JSON
 hall_of_fame_players.write.mode("overwrite").json("streamlit/hall_of_fame_players.json")
 
+# Guardar el DataFrame en formato JSON, sobrescribiendo los resultados si existen
+df.write.mode("overwrite").json("results")
+
 # Detener la sesión de Spark
 spark.stop()
