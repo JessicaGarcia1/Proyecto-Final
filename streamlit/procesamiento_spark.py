@@ -10,38 +10,40 @@ df = spark.read.csv("streamlit/baseball.csv", header=True, inferSchema=True)
 # Mostrar las primeras filas del DataFrame
 df.show()
 
-# Crear una vista temporal para consultas SQL
+# Crear vista temporal para consultas SQL
 df.createOrReplaceTempView("baseball")
 
-# Consulta para obtener los jugadores del Salón de la Fama con mayor carrera
-query_hall_of_fame = """
+# Consulta SQL para jugadores en el Salón de la Fama
+query_hof = """
 SELECT name, start_year, end_year, hall_of_fame, career_length
 FROM baseball
 WHERE hall_of_fame = 'Y'
 ORDER BY career_length DESC
 LIMIT 10
 """
-hall_of_fame_players = spark.sql(query_hall_of_fame)
+hall_of_fame_players = spark.sql(query_hof)
 hall_of_fame_players.show()
 
-# Consulta para obtener jugadores nacidos entre 1903 y 1950
-query_birth_years = """
-SELECT name, birth
+# Guardar el resultado en JSON
+hall_of_fame_players.write.mode("overwrite").json("streamlit/hall_of_fame_players.json")
+
+# Consulta SQL para jugadores que comenzaron entre 1903 y 1950
+query_start_years = """
+SELECT name, start_year
 FROM baseball
-WHERE birth BETWEEN '1903-01-01' AND '1950-12-31'
-ORDER BY birth
+WHERE start_year BETWEEN 1903 AND 1950
+ORDER BY start_year
 """
-players_1903_1950 = spark.sql(query_birth_years)
+players_1903_1950 = spark.sql(query_start_years)
 players_1903_1950.show(20)
 
-# Guardar ambos DataFrames en formato JSON
-hall_of_fame_players.write.mode("overwrite").json("streamlit/hall_of_fame_players.json")
-players_1903_1950.write.mode("overwrite").json("results/players_1903_1950.json")
+# Guardar en JSON
+players_1903_1950.write.mode("overwrite").json("results")
 
-# Convertir el DataFrame de jugadores 1903-1950 a JSON y guardarlo en un archivo local
+# Guardar los resultados en un archivo JSON
 results = players_1903_1950.toJSON().collect()
-with open('results/players_1903_1950.json', 'w') as file:
-    json.dump(results, file, indent=4)
+with open('results/data.json', 'w') as file:
+    json.dump(results, file)
 
 # Detener la sesión de Spark
 spark.stop()
