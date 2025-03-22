@@ -19,6 +19,8 @@ jobs:
           python streamlit/procesamiento_spark.py # Ejecuta el script de Spark
       - name: Subir resultados procesados
         run: |
+          git config --global user.name "JessicaGarcia1"
+          git config --global user.email "garsiljes@gmail.com" # Configura el nombre y el correo
           git add .
           git commit -m "Resultados procesados con Spark"
           git push origin main
