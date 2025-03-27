@@ -37,13 +37,12 @@ ORDER BY start_year
 players_1903_1950 = spark.sql(query_start_years)
 players_1903_1950.show(20)
 
-# Guardar en JSON
-players_1903_1950.write.mode("overwrite").json("results")
+# Convertir DataFrame de Spark a Pandas y guardarlo en JSON sin caracteres de escape
+results = players_1903_1950.toPandas().to_dict(orient="records")
 
-# Guardar los resultados en un archivo JSON
-results = players_1903_1950.toJSON().collect()
-with open('results/data.json', 'w') as file:
-    json.dump(results, file)
+# Guardar en un archivo JSON correctamente formateado
+with open("results/data.json", "w", encoding="utf-8") as file:
+    json.dump(results, file, ensure_ascii=False, indent=4)
 
 # Detener la sesión de Spark
 spark.stop()
