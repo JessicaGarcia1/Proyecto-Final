@@ -16,10 +16,10 @@ client = init_connection()
 @st.cache_data(ttl=600)
 def get_data():
     db = client.Baseball_players
-    items = db.Baseball_players.find()
-    items = list(items)  # make hashable for st.cache_data
+    items = db.Baseball_players.find().limit(5)  # Limita la cantidad de documentos a 5
+    items = list(items)  # Convertir a lista para que se pueda usar en st.cache_data
+    st.write(f"Se encontraron {len(items)} documentos en la colección.")
     return items
-
 
 def post_spark_job(user, repo, job, token, codeurl, dataseturl):
     # Define the API endpoint
