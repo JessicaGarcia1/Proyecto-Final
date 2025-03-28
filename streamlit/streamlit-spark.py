@@ -15,8 +15,8 @@ client = init_connection()
 # Pull data from the collection. Uses st.cache_data to only rerun when the query changes or after 10 min.
 @st.cache_data(ttl=600)
 def get_data():
-    db = client.baseball_players
-    items = db.baseball_players.find()
+    db = client.Baseball_players
+    items = db.Baseball_players.find()
     items = list(items)  # make hashable for st.cache_data
     return items
 
