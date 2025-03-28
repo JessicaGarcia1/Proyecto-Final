@@ -91,7 +91,7 @@ conn = st.connection("postgresql", type="sql")
 
 if st.button("Query Postgresql table"):
   # Perform query.
-  df = conn.query('SELECT * FROM baseball_players;', ttl="10m")
+  df = conn.query('SELECT * FROM baseball_players LIMIT 5;', ttl="10m")
   print(df)
   # Print results.
   for row in df.itertuples():
