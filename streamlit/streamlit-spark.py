@@ -50,7 +50,7 @@ def post_spark_job(user, repo, job, token, codeurl, dataseturl):
     # Display the response in the app
     st.write(response)
 
-st.title("Spark & streamlit")
+st.title("Proyecto Final Jessica Garcia")
 
 st.header("spark-submit Job")
 
